@@ -15,6 +15,5 @@
         <move element="product.info.description" destination="product.info.price" as="product_info_main"/>
         <move element="product.info.upsell" destination="product.info.addtocart" as="product_info_upsell"/>
         <move element="product.info.type" destination="product.info.price" as="product_instock"/>
-<!--        <move element="catalog.product.related" destination="content" after="-" as="catalog_product_related"/>-->
     </body>
 </page>

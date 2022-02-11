@@ -2,24 +2,20 @@
 /** @var Attributes $block */
 ?>
 <div class='product-description'>
+    <?php if ($attributes = $block->getThreeAttributes()): ?>
+        <ul>
+            <?php foreach ($attributes as $a): ?>
+                <li>
+                    <b><?= $a['value']; ?>:</b> <?= $a['label']; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
 
-    <ul>
-    <?php foreach ($block->getThreeAttributes() as $a): ?>
-        <li>
-            <b>
-                <?= $a['value']; ?>:
-            </b>
-                <?= $a['label']; ?>
-        </li>
-    <?php endforeach; ?>
-    </ul>
-
-
-
-    <div class='short-description'>
-        <?php
-        echo $block->description->getProduct()->getShortDescription();
-        ?>
-    </div>
+    <?php if ($description = $block->getProduct()->getShortDescription()): ?>
+        <div class='short-description'>
+            <?= $description; ?>
+        </div>
+    <?php endif; ?>
 </div>
 

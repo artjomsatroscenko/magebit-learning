@@ -15,7 +15,6 @@ class Pages implements ArrayInterface
         $this->collectionFactory = $collectionFactory;
     }
 
-    /* Get Pages Collection from site. */
     public function toOptionArray(): array
     {
         $pages = [];

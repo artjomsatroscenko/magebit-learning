@@ -4,30 +4,22 @@ declare(strict_types=1);
 
 namespace Magebit\Attributes\Block;
 
-use Magento\Framework\View\Element\Template;
-use Magento\Catalog\Block\Product\View\Description;
+use Magento\Catalog\Block\Product\View;
 
-class Attributes extends Template
+class Attributes extends View
 {
-    public Description $description;
-
-    public function __construct(
-        Description      $description,
-        Template\Context $context,
-        array            $data = []
-    ) {
-        parent::__construct($context, $data);
-        $this->description = $description;
-    }
-
     /**
      * Returns 3 attributes for product, if some of attributes value or label is missing it will go to next attribute
      * @return array
      */
     public function getThreeAttributes(): array
     {
-        $_product = $this->description->getProduct();
-        $getAllAttributes = $_product->getAttributes();
+        $product = $this->getProduct();
+        $getAllAttributes = $product->getAttributes();
+
+        if (empty($getAllAttributes)) {
+            return [];
+        }
 
         foreach ($getAllAttributes as $a) {
             $allAttr[] = $a->getName();
@@ -40,13 +32,15 @@ class Attributes extends Template
         $count = 0;
         $i = 0;
         $threeAttribute = [];
-        $productResource = $_product->getResource();
+        $productResource = $product->getResource();
         while ($count < 3 && $i < count($fullArray)) {
             $myAttr = $productResource->getAttribute($fullArray[$i]);
-            if (!empty($myAttr->getStoreLabel()) && !empty($myAttr->getFrontend()->getValue($_product))) {
+            $getLabel = $myAttr->getStoreLabel();
+            $getValue = $myAttr->getFrontend()->getValue($product);
+            if (!empty($getLabel) && !empty($getValue)) {
                 $threeAttribute[] = [
-                    'value' => $myAttr->getStoreLabel(),
-                    'label' => $myAttr->getFrontend()->getValue($_product)
+                    'value' => $getLabel,
+                    'label' => $getValue
                 ];
                 $count++;
             }
