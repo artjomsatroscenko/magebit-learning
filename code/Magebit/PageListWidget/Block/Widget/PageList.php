@@ -16,14 +16,20 @@ class PageList extends Template implements BlockInterface
     protected SearchCriteriaBuilder $searchCriteriaBuilder;
     private StoreManagerInterface $storeManager;
 
+    /**
+     * @param Template\Context $context
+     * @param array $data
+     * @param PageRepositoryInterface $pageRepositoryInterface
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param StoreManagerInterface $storeManager
+     */
     public function __construct(
         Template\Context        $context,
         array                   $data = [],
         PageRepositoryInterface $pageRepositoryInterface,
         SearchCriteriaBuilder   $searchCriteriaBuilder,
         StoreManagerInterface   $storeManager
-    )
-    {
+    ){
         parent::__construct($context, $data);
         $this->pageRepositoryInterface = $pageRepositoryInterface;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
@@ -32,6 +38,7 @@ class PageList extends Template implements BlockInterface
     /**
      * @throws LocalizedException
      */
+
     public function getPages(): array
     {
         $searchCriteria = $this->searchCriteriaBuilder;
