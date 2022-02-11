@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Magebit\PageListWidget\Block\Widget;
 
 use Magento\Cms\Api\PageRepositoryInterface;
@@ -11,18 +13,15 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class PageList extends Template implements BlockInterface
 {
+    /**
+     * @var string
+     */
     protected $_template = 'page-list.phtml';
-    protected PageRepositoryInterface $pageRepositoryInterface;
-    protected SearchCriteriaBuilder $searchCriteriaBuilder;
+
+    private PageRepositoryInterface $pageRepositoryInterface;
+    private SearchCriteriaBuilder $searchCriteriaBuilder;
     private StoreManagerInterface $storeManager;
 
-    /**
-     * @param Template\Context $context
-     * @param array $data
-     * @param PageRepositoryInterface $pageRepositoryInterface
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param StoreManagerInterface $storeManager
-     */
     public function __construct(
         Template\Context        $context,
         array                   $data = [],
@@ -35,10 +34,12 @@ class PageList extends Template implements BlockInterface
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->storeManager = $storeManager;
     }
-    /**
-     * @throws LocalizedException
-     */
 
+    /**
+     * @return array
+     * @throws LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
     public function getPages(): array
     {
         $searchCriteria = $this->searchCriteriaBuilder;
@@ -52,5 +53,4 @@ class PageList extends Template implements BlockInterface
         $searchCriteria = $searchCriteria->create();
         return $this->pageRepositoryInterface->getList($searchCriteria)->getItems();
     }
-
 }
